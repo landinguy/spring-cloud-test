@@ -1,0 +1,37 @@
+server:
+  port: 8886
+
+spring:
+  application:
+    name: zuul-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8880/eureka/
+
+#实现路由功能
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      serviceId: consumer-ribbon
+    api-b:
+      path: /api-b/**
+      serviceId: consumer-feign
+
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
